@@ -12,7 +12,7 @@
 <script id="template" type="x-tmpl-mustache">
 
 
-{{#data.stickies}}
+{{#stickies}}
 <div class="sticky-note" id="index-{{ index }}">
 	<div class="border">
 		<span>{{ content }}</span>
@@ -22,12 +22,12 @@
 <style>
 	#index-{{ index }} {
 		position: absolute;
-		top: {{ x }}px;
-		left: {{ y }}px;
+		top: {{ x }};
+		left: {{ y }};
 	}
 </style>
 
-{{/data.stickies}}
+{{/stickies}}
 
 
 </script>
@@ -60,27 +60,25 @@
 	function loadStickyNotes() {
 	  var template = document.querySelector('#template').innerHTML;
 	  Mustache.parse(template);   // optional, speeds up future uses
-	  var rendered = Mustache.render(template, { data });
+	  var rendered = Mustache.render(template, { stickies });
 	  document.querySelector('#target').innerHTML = rendered;
 	}
 
-data =
-	{
-		"stickies":[
-			{
-				"index": 0,
-				"content": "this is the postit text",
-				"x": 50,
-				"y": 50
-			},
-			{
-				"index": 1,
-				"content": "this is the postit text of postit nr 2",
-				"x": 100,
-				"y": 100
-			}
+stickies =
+	[
+		{
+			"index": 0,
+			"content": "this is the postit text",
+			"x": 0,
+			"y": 0
+		},
+		{
+			"index": 1,
+			"content": "this is the postit text of postit nr 2",
+			"x": "78mm",
+			"y": "78mm"
+		}
 	]
-}
 
 </script>
 </html>
