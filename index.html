@@ -3,19 +3,70 @@
 <head>
 	<script type="text/javascript" src="node_modules/mustache/mustache.js"></script>
 </head>
-<body onload="loadUser()">
+
+<!-- pulled the mustache example and iterated from there -->
+
+
+<body onload="loadStickyNotes()">
 <div id="target">Loading...</div>
 <script id="template" type="x-tmpl-mustache">
-Hello {{ name }}!
+<div class="sticky-note" id="index-{{ data.index }}">
+	<div class="border">
+		<span>{{ data.content }}</span>
+	</div>
+</div>
+
+<style>
+	#index-{{ data.index }} {
+		position: absolute;
+		top: {{ data.x }}px;
+		left: {{ data.y }}px;
+	}
+</style>
+
+
+
 </script>
+
+
+<style>
+	* { box-sizing: border-box;}
+
+	/* DEFAULTS */
+	/* these are overwritten in a style tag per postit*/
+	.sticky-note {
+		width: 76mm;
+		height: 76mm;
+		padding: 0.2em;
+		background-color: #FFF57E;
+		font-family: sans-serif;
+		font-size: 36px;
+	}
+	.border {
+		padding: 0.3em;
+		border: 2px solid black;
+		height: 100%;
+	}
+</style>
+
+
 </body>
 
 <script type="text/javascript">
-	function loadUser() {
+	function loadStickyNotes() {
 	  var template = document.querySelector('#template').innerHTML;
 	  Mustache.parse(template);   // optional, speeds up future uses
-	  var rendered = Mustache.render(template, {name: "Luke"});
+	  var rendered = Mustache.render(template, { data });
 	  document.querySelector('#target').innerHTML = rendered;
 	}
+
+data =
+	{
+		"index": 0,
+		"content": "this is the postit text",
+		"x": 50,
+		"y": 50
+	}
+
 </script>
 </html>

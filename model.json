@@ -1,12 +1,13 @@
-{
-	"content": "this is the postit text",
-	"size": "square, diamond, wide, portriait, large",
-	"font-size": "normal, large",
-	"font-weight": "100..900",
-	"background-color": "color",
-	"color": "color",
-	"border": "none, normal, thick",
-	"corners_marked": "tl, tr, bl, br",
-	"x": 0,
-	"y": 0,
-}
+	{
+		"index": 0,
+		"content": "this is the postit text",
+		"size": "square, diamond, wide, portriait, large",
+		"font-size": "normal, large",
+		"font-weight": "100..900",
+		"background-color": "color",
+		"color": "color",
+		"border": "none, normal, thick",
+		"corners_marked": "tl, tr, bl, br",
+		"x": 50,
+		"y": 50
+	}
