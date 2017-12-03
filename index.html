@@ -1,34 +1,14 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<script type="text/javascript" src="node_modules/mustache/mustache.js"></script>
+
 </head>
 
 <!-- pulled the mustache example and iterated from there -->
 
 
-<body onload="loadStickyNotes()">
-<div id="target">Loading...</div>
-<script id="template" type="x-tmpl-mustache">
-
-
-{{#stickies}}
-<div class="sticky-note" id="index-{{ index }}">
-	<div class="border">
-		<span>{{ content }}</span>
-	</div>
-</div>
-
-<style>
-	#index-{{ index }} {
-		position: absolute;
-		top: {{ x }};
-		left: {{ y }};
-	}
-</style>
-
-{{/stickies}}
-
+<body onload="renderStickyNotes();">
+<div id="target-new">Loading...</div>
 
 </script>
 
@@ -46,7 +26,10 @@
 		font-family: sans-serif;
 		font-size: 36px;
 	}
-	.border {
+	.sticky-note:focus {
+		background-color: white;
+	}
+	.border, .sticky-content {
 		/*padding: 0.3em;*/
 		/*border: 2px solid black;*/
 		height: 100%;
@@ -57,12 +40,6 @@
 </body>
 
 <script type="text/javascript">
-	function loadStickyNotes() {
-	  var template = document.querySelector('#template').innerHTML;
-	  Mustache.parse(template);   // optional, speeds up future uses
-	  var rendered = Mustache.render(template, { stickies });
-	  document.querySelector('#target').innerHTML = rendered;
-	}
 
 stickies =
 	[
@@ -74,11 +51,87 @@ stickies =
 		},
 		{
 			"index": 1,
-			"content": "this is the postit text of postit nr 2",
-			"x": "78mm",
-			"y": "78mm"
+			"content": "the dragging is still broken in chrome and dragend handler seems to be broken in ff...",
+			"x": 300,
+			"y": 300
 		}
 	]
+
+
+	function dragending(event) {
+		// console.log(event);
+		var element = event.target;
+		updatedIndex = element.getAttribute("data-id");
+		console.log(event.target);
+		stickies[updatedIndex].x = event.layerX;
+		stickies[updatedIndex].y = event.layerY;
+		console.log(stickies[updatedIndex]);
+		renderStickyNotes();
+
+	}
+
+
+
+	function renderStickyNotes() {
+
+
+		var dom = "";
+
+		stickies.forEach( function (sticky, b, c, d) {
+			console.log(sticky.index);
+
+
+			var literalTemplate = `
+				<div class="sticky-note" draggable="true" data-id="${ sticky.index }"
+					ondragstart="console.log('drag'); this.style.opacity = '0.4';"
+					ondragend="console.log('dragend'); this.style.opacity = '1'; dragending(event);"
+					id="index-${ sticky.index }">
+					<div class="border">
+						<div class="sticky-content" data-id="${ sticky.index }">${ sticky.content }</div>
+					</div>
+
+					<style>
+						#index-${ sticky.index } {
+							position: absolute;
+							left: ${ sticky.x }px;
+							top: ${ sticky.y }px;
+						}
+					</style>
+				</div>
+			`;
+
+			dom = dom + literalTemplate;
+
+		});
+
+		document.querySelector('#target-new').innerHTML = dom;
+		document.querySelectorAll('.sticky-content').forEach(function (ding) {
+			ding.contentEditable = "true";
+			ding.addEventListener( "blur", triggerUpdate );
+
+		})
+
+		// document.querySelectorAll('.sticky-note .sticky-content').forEach(function (ding) {
+			// ding);
+		// })
+		// ding.querySelector('.sticky-content').addEventListener( "blur", triggerUpdate );
+
+
+
+		// document.addEventListener( "blur", triggerUpdate );
+
+		function triggerUpdate (event) {
+			var element = event.target;
+			// console.log( element.querySelector('.sticky-content').innerHTML );
+			console.log(element.innerHTML);
+			console.log(element.getAttribute("data-id"));
+			updatedIndex = element.getAttribute("data-id");
+			stickies[updatedIndex].content = element.innerHTML;
+			console.log(stickies[updatedIndex]);
+		}
+	}
+
+
 
 </script>
 </html>

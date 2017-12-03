@@ -5,12 +5,15 @@
 
 ## PostIts
 
-- CRUD
-- render from list of postits
-- persist locally in browser DB
-- draggable
+- [ ] replace mustache with https://caniuse.com/#feat=template-literals
+- [ ] CRUD
+- [x] render from list of postits
+- [ ] persist locally in browser DB
+- [ ] draggable
+
 
 ## later
+- snap to grid
 - border y/n, 2 text sizes/weights, background-colors
 - hide areas from others
 - invite/remove people
