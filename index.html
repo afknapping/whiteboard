@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script type="text/javascript" src="node_modules/mustache/mustache.js"></script>
+</head>
+<body onload="loadUser()">
+<div id="target">Loading...</div>
+<script id="template" type="x-tmpl-mustache">
+Hello {{ name }}!
+</script>
+</body>
+
+<script type="text/javascript">
+	function loadUser() {
+	  var template = document.querySelector('#template').innerHTML;
+	  Mustache.parse(template);   // optional, speeds up future uses
+	  var rendered = Mustache.render(template, {name: "Luke"});
+	  document.querySelector('#target').innerHTML = rendered;
+	}
+</script>
+</html>
